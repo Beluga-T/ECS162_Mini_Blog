@@ -2,6 +2,7 @@ const express = require('express');
 const expressHandlebars = require('express-handlebars');
 const session = require('express-session');
 const canvas = require('canvas');
+const { createCanvas } = require('canvas')
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Configuration and Setup
@@ -127,15 +128,45 @@ app.get('/post/:id', (req, res) => {
 });
 app.post('/posts', (req, res) => {
     // TODO: Add a new post and redirect to home
+    const { title, content } = req.body;
+    const user = getCurrentUser(req);
+    if (!user) {
+        return res.redirect('/login');
+    }
+    addPost(title, content, user);
+    res.redirect('/');
 });
 app.post('/like/:id', (req, res) => {
     // TODO: Update post likes
+    const postId = parseInt(req.params.id, 10);
+    const post = posts.find(p => p.id === postId);
+    if (post) {
+        post.likes += 1;
+    }
+    res.redirect('/');
 });
 app.get('/profile', isAuthenticated, (req, res) => {
     // TODO: Render profile page
+    const user = getCurrentUser(req);
+    if (!user) {
+        return res.redirect('/login');
+    }
+
+    const userPosts = posts.filter(post => post.username === user.username);
+    res.render('profile', { user, posts: userPosts });
 });
 app.get('/avatar/:username', (req, res) => {
     // TODO: Serve the avatar image for the user
+    const username = req.params.username;
+    console.log(`Generating avatar for: ${username}`);
+    const letter = username.charAt(0).toUpperCase();
+
+    // Generate the avatar
+    const avatarBuffer = generateAvatar(letter);
+
+    // Set the content type to PNG and send the buffer
+    res.setHeader('Content-Type', 'image/png');
+    res.send(avatarBuffer);
 });
 app.post('/register', (req, res) => {
     // TODO: Register a new user
@@ -200,6 +231,9 @@ app.get('/logout', (req, res) => {
 });
 app.post('/delete/:id', isAuthenticated, (req, res) => {
     // TODO: Delete a post if the current user is the owner
+    const postId = parseInt(req.params.id, 10);
+    posts = posts.filter(p => p.id !== postId || p.username !== req.session.userId);
+    res.redirect('/');
 });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -304,6 +338,16 @@ function getPosts() {
 // Function to add a new post
 function addPost(title, content, user) {
     // TODO: Create a new post object and add to posts array
+    const newPost = {
+        id: posts.length + 1,
+        title,
+        content,
+        username: user.username,
+        timestamp: new Date().toISOString(),
+        likes: 0,
+    };
+    posts.push(newPost);
+    console.log(`Post titled "${title}" added by ${user.username}`);
 }
 
 // Function to generate an image avatar
@@ -315,4 +359,27 @@ function generateAvatar(letter, width = 100, height = 100) {
     // 3. Draw the background color
     // 4. Draw the letter in the center
     // 5. Return the avatar as a PNG buffer
+    const { createCanvas } = require('canvas');
+
+    // Choose a color scheme based on the letter
+    const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#A833FF'];
+    const backgroundColor = colors[letter.charCodeAt(0) % colors.length];
+
+    // Create a canvas with the specified width and height
+    const canvas = createCanvas(width, height);
+    const context = canvas.getContext('2d');
+
+    // Draw the background color
+    context.fillStyle = backgroundColor;
+    context.fillRect(0, 0, width, height);
+
+    // Draw the letter in the center
+    context.fillStyle = '#fff';
+    context.font = 'bold 50px Arial';
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.fillText(letter, width / 2, height / 2);
+
+    // Return the avatar as a PNG buffer
+    return canvas.toBuffer('image/png');
 }
