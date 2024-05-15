@@ -1,30 +1,46 @@
 {{! Use the main layout }}
-{{!< main }}
-
-<section class="login-register">
-    <section class = "login-area">
+{{!< main }} <section class="login-register">
+    <section class="login-area">
         <h2>Login</h2>
         <!-- errors will appear here -->
         {{#if loginError}}
-            <p style="color: red;">{{loginError}}</p>
+        <p style="color: red;">{{loginError}}</p>
         {{/if}}
         <form action="/login" method="POST">
-            <!-- the login form goes here -->        
-             <button type="submit">Login</button>
+            <!-- the login form goes here -->
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+            <button type="submit">Login</button>
         </form>
     </section>
 
     <!-- say --OR-- ... with style -->
+    <div class="or-separator">
+        <span>OR</span>
+    </div>
 
-    <section class = "register-area">
+    <section class="register-area">
         <h2>Register</h2>
         <!-- errors will appear here -->
         {{#if regError}}
-            <p style="color: red;">{{regError}}</p>
+        <p style="color: red;">{{regError}}</p>
         {{/if}}
         <form action="/register" method="POST">
             <!-- the registration form goes here -->
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
             <button type="submit">Register</button>
         </form>
     </section>
-</section>
+    </section>

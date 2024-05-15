@@ -1,0 +1,189 @@
+/* Reset some default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f6f8fa;
+    color: #24292e;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background-color: #24292e;
+    color: white;
+    padding: 0.75em 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 0 rgba(27, 31, 35, 0.1);
+}
+
+.header-logo {
+    height: 32px;
+    margin-right: 10px;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.25em;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1em;
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5em;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Main Content */
+main {
+    flex: 1;
+    padding: 2em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Forms */
+form {
+    background: white;
+    padding: 2em;
+    margin: 2em auto;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 1px 3px rgba(27, 31, 35, 0.1);
+}
+
+form h2 {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+label {
+    display: block;
+    margin: 0.5em 0 0.25em;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 0.75em;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 1em;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Separator */
+.or-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1em 0;
+}
+
+.or-separator span {
+    padding: 0.5em;
+    background: #e1e4e8;
+    border-radius: 50%;
+    font-weight: bold;
+    color: #586069;
+}
+
+/* User Info */
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.header-avatar {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+/* Footer */
+footer {
+    background-color: #24292e;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Additional elements for login/register */
+.login-register {
+    display: flex;
+    justify-content: space-between;
+    margin: 2em auto;
+    padding: 1em;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    max-width: 800px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(27, 31, 35, 0.1);
+}
+
+.login-area,
+.register-area {
+    width: 45%;
+}
