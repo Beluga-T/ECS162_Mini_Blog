@@ -9,7 +9,8 @@
         <form action="/login" method="POST">
             <!-- the login form goes here -->
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
+            <input type="text" id="username" name="username" required pattern="^[a-zA-Z0-9_]+$"
+                title="Only letters, numbers, and underscores are allowed.">
 
 
             <button type="submit">Login</button>
@@ -30,7 +31,8 @@
         <form action="/register" method="POST">
             <!-- the registration form goes here -->
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
+            <input type="text" id="username" name="username" required pattern="^[a-zA-Z0-9_]+$"
+                title="Only letters, numbers, and underscores are allowed.">
 
 
             <button type="submit">Register</button>
