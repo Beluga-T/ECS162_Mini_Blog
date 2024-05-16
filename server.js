@@ -231,7 +231,7 @@ app.get('/logout', (req, res) => {
 });
 app.post('/delete/:id', isAuthenticated, (req, res) => {
     // TODO: Delete a post if the current user is the owner
-    const postId = parseInt(req.params.id, 10);
+    const postId = parseInt(req.params.id, 10); 
     posts = posts.filter(p => p.id !== postId || p.username !== req.session.userId);
     res.redirect('/');
 });
