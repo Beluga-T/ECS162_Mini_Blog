@@ -15,7 +15,7 @@
         <!-- Heart = ♥ -->
         <!-- font awesome  trashcan = <i class="fas fa-trash-alt"> </i>-->
         <span>Posted by {{username}} on {{timestamp}}</span>
-        <span>Likes: {{likes}}</span>
+        <span class="like-num" data-id="{{id}}">Likes: {{likes}}</span>
         {{#ifCond username ./user.username}}
         {{!-- <button class="like-button" data-id="{{id}}" onclick="handleLikeClick(event)">
             <i class="fas fa-thumbs-up"></i> Like
@@ -39,15 +39,17 @@
 
     function handleLikeClick(event) {
         const postId = event.target.getAttribute('data-id');
+        const likeSpan = document.querySelector(`.like-num[data-id="${postId}"]`);
 
         // you might want to "fetch" something...    
         fetch(`/like/${postId}`, {
             method: 'POST',
         })
-            .then(response => {
-                if (response.ok) {
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
                     // Reload the page or update the UI to show the new like count
-                    window.location.reload();
+                    likeSpan.textContent = `Likes: ${data.likes}`;
                 }
             })
             .catch(error => {
@@ -59,7 +61,7 @@
     function handleDeleteClick(event) {
         const buttonElement = event.target.closest('.delete-button');
         const postId = buttonElement.getAttribute('data-id');
-        
+
         // you might want to "fetch" something...        
         fetch(`/delete/${postId}`, {
             method: 'POST',

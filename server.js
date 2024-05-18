@@ -143,7 +143,10 @@ app.post('/like/:id', (req, res) => {
     if (post) {
         post.likes += 1;
     }
-    res.redirect('/');
+    let temp = post.likes
+    res.json({ success: true, likes: temp });
+    // res.redirect('/');
+
 });
 app.get('/profile', isAuthenticated, (req, res) => {
     // TODO: Render profile page
@@ -231,7 +234,7 @@ app.get('/logout', (req, res) => {
 });
 app.post('/delete/:id', isAuthenticated, (req, res) => {
     // TODO: Delete a post if the current user is the owner
-    const postId = parseInt(req.params.id, 10); 
+    const postId = parseInt(req.params.id, 10);
     // remove the post from the posts array
     posts = posts.filter(post => post.id !== postId);
     console.log(`Post with ID ${postId} deleted`);
