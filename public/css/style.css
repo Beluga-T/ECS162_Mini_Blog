@@ -187,3 +187,14 @@ footer p {
 .register-area {
     width: 45%;
 }
+
+/* POSTS */
+.post{
+    margin-top: 24px;
+}
+
+.posts__heading{
+    margin-bottom: 64px;
+    text-align: center;
+    font-size: 36px;
+}
