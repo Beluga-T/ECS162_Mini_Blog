@@ -4,7 +4,7 @@
     <!-- show the create post form when logged in -->
     <section class="post-form">
         <!-- make a header here -->
-        <h2>Create a New Post</h2>
+        <h2 class="main__heading">Create New Post</h2>
         <form action="/posts" method="POST">
 
             <!-- title input field name = "title" -->
@@ -30,9 +30,9 @@
     </section>
     {{/if}}
 
-    <section class="posts-list">
+    <section class="post-list">
         <!-- recent posts -->
-        <h2 class="posts__heading">Recent Posts</h2>
+        <h2 class="main__heading">Recent Posts</h2>
         {{#if posts.length}} <!-- if there are posts, show them -->
         <ul>
             {{#each posts}}
