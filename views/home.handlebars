@@ -61,7 +61,12 @@
          that you have them.
         */
 
+        const accessToken = '{{temp}}';
+
         let allEmojis = [];  // Global list to hold all emojis
+
+        const apiKey = accessToken
+
 
         function toggleEmojiPanel() {
             const container = document.getElementById('emoji-container');
@@ -70,6 +75,15 @@
 
             if (container.style.display === 'block' && allEmojis.length == 0) {
                 // go "Fetch" you some emojis and show them off with displayEmojies
+                fetch(`https://emoji-api.com/emojis?access_key=${apiKey}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        allEmojis = data;
+                        displayEmojis(allEmojis);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching emojis:', error);
+                    });
             }
         }
 
@@ -95,7 +109,8 @@
             // array.filter takes a predicate
             // use string.includes. 
 
-            const filteredEmojis = allEmojis.filter(...);
+            // const filteredEmojis = allEmojis.filter(...);
+            const filteredEmojis = allEmojis.filter(emoji => emoji.unicodeName.toLowerCase().includes(searchTerm));
 
             displayEmojis(filteredEmojis);
         }
@@ -105,6 +120,16 @@
 
             // do this when you're doing getting the emoji on the form
             //
-            textarea.focus();  // Keep focus on the textarea
+            const textarea = document.getElementById('content');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+            const before = text.substring(0, start);
+            const after = text.substring(end, text.length);
+
+            textarea.value = before + emoji + after;
+            textarea.selectionStart = textarea.selectionEnd = start + emoji.length;
+            textarea.focus();  // Keep focus on the 
+
         }
     </script>

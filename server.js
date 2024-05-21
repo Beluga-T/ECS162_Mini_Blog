@@ -3,6 +3,8 @@ const expressHandlebars = require('express-handlebars');
 const session = require('express-session');
 const canvas = require('canvas');
 const { createCanvas } = require('canvas')
+require('dotenv').config()
+const accessToken = process.env.EMOJI_API_KEY;
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Configuration and Setup
@@ -99,7 +101,8 @@ app.use(express.json());                            // Parse JSON bodies (as sen
 app.get('/', (req, res) => {
     const posts = getPosts();
     const user = getCurrentUser(req) || {};
-    res.render('home', { posts, user });
+    const temp = accessToken
+    res.render('home', { posts, user, temp });
 });
 
 // Register GET route is used for error response from registration
