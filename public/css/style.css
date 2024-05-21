@@ -214,6 +214,14 @@ footer p {
 .post__text{
     margin-top: 4px;
 }
+.post__information{
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+.post__likes{
+    color: #28a745;
+}
 
 .main__heading{
     margin-bottom: 64px;
