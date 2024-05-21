@@ -5,7 +5,7 @@
         <img src="{{#if user.avatar_url}}{{user.avatar_url}}{{else}}/avatar/{{username}}{{/if}}"
             alt="Avatar of {{username}}" class="post-avatar_img">
     </div>
-    <div class="post-content"> 
+    <div class="post-content">
         <h3>{{title}}</h3>
         <p class="post__text">{{content}}</p>
     </div>
@@ -53,7 +53,7 @@
             .then(data => {
                 if (data.success) {
                     // Reload the page or update the UI to show the new like count
-                    likeSpan.textContent = `Likes: ${data.likes}`;
+                    likeSpan.innerHTML = `${data.likes}` + ' <i class="fas fa-thumbs-up post__likes"></i>';
                 }
             })
             .catch(error => {
