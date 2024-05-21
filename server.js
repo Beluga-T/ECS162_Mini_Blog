@@ -126,16 +126,7 @@ app.get('/error', (req, res) => {
 // Additional routes that you must implement
 
 
-app.get('/post/:id', (req, res) => {
-    // TODO: Render post detail page
-    const postId = parseInt(req.params.id, 10);
-    const post = posts.find(p => p.id === postId);
-    if (!post) {
-        return res.redirect('/error');
-    }
-    res.render('post', { post });
 
-});
 app.post('/posts', (req, res) => {
     // TODO: Add a new post and redirect to home
     const { title, content } = req.body;
