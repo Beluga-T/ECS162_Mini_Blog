@@ -49,6 +49,8 @@ header h1 {
 nav ul {
     list-style: none;
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 1em;
 }
 
@@ -232,4 +234,24 @@ footer p {
 #content{
     width: 100%;
     height: 128px;
+}
+/* PROFILE */
+.profile-container{
+    display: flex;
+    margin: 24px auto;
+    justify-content: center;
+}
+    
+.profile-avatar-img{
+    border-radius: 20%;
+    width: 150px;
+    margin-right: 36px;
+}
+
+.profile-username{
+    margin-bottom: 8px;
+}
+
+.profile-posts_header{
+    text-align: center;
 }
