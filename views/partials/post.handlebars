@@ -16,8 +16,10 @@
         <!-- everything that is shown in the status bar -->
         <!-- Heart = ♥ -->
         <!-- font awesome  trashcan = <i class="fas fa-trash-alt"> </i>-->
-        <span>Posted by {{username}} on {{timestamp}}</span>
-        <span class="like-num" data-id="{{id}}">Likes: {{likes}}</span>
+        <div class="post__information">
+            <span class="like-num" data-id="{{id}}">{{likes}} <i class="fas fa-thumbs-up post__likes"></i></span>
+            <span>Posted by {{username}} on {{timestamp}}</span>
+        </div>
         {{#ifCond username ./user.username}}
         {{!-- <button class="like-button" data-id="{{id}}" onclick="handleLikeClick(event)">
             <i class="fas fa-thumbs-up"></i> Like
