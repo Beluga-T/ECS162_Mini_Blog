@@ -150,6 +150,11 @@ button:hover {
     align-items: center;
 }
 
+.user-posts {
+    width: 60%;
+    /* Adjust width to ensure it fits the container */
+}
+
 .header-avatar {
     height: 32px;
     width: 32px;
