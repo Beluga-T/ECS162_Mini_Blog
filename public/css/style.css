@@ -190,11 +190,11 @@ footer p {
 }
 
 /* POSTS */
-
 .content-container {
     display: flex;
-    width: 70%;
-    justify-content: center;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .post-form {
@@ -208,8 +208,6 @@ footer p {
 
 .post {
     margin-top: 36px;
-    display: flex;
-    flex-direction: column;
     padding: 16px;
     border: 1px solid #e1e4e8;
     border-radius: 6px;
@@ -224,12 +222,26 @@ footer p {
 }
 
 .post-avatar_img {
-    border-radius: 20%;
-    margin-right: 24px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 16px;
 }
 
-.post__text {
-    margin-top: 4px;
+.post-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-content h3 {
+    font-size: 1.25em;
+    margin-bottom: 0.5em;
+}
+
+.post-content p {
+    font-size: 1em;
+    line-height: 1.5;
+    margin-top: 0.5em;
 }
 
 .post__information {
