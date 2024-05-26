@@ -20,21 +20,18 @@
             <span class="like-num" data-id="{{id}}">{{likes}} <i class="fas fa-thumbs-up post__likes"></i></span>
             <span>Posted by {{username}} on {{timestamp}}</span>
         </div>
-        {{#ifCond username ./user.username}}
-        {{!-- <button class="like-button" data-id="{{id}}" onclick="handleLikeClick(event)">
-            <i class="fas fa-thumbs-up"></i> Like
-        </button> --}}
+        {{#ifCond username user.username}}
         <button class="delete-button" data-id="{{id}}" onclick="handleDeleteClick(event)">
             <i class="fas fa-trash-alt"></i> Delete
         </button>
-
         {{else}}
         <button class="like-button" data-id="{{id}}" onclick="handleLikeClick(event)">
             <i class="fas fa-thumbs-up"></i> Like
         </button>
         {{/ifCond}}
-        {{!-- <!-- Debugging information -->
-        <span>Debug - Current User: {{./user.username}}</span>
+
+        <!-- Debugging information -->
+        {{!-- <span>Debug - Current User: {{user.username}}</span>
         <span>Debug - Post User: {{username}}</span> --}}
     </div>
 </div>
@@ -43,23 +40,39 @@
 
     function handleLikeClick(event) {
         const postId = event.target.getAttribute('data-id');
+        console.log('Like button clicked for post:', postId);
         const likeSpan = document.querySelector(`.like-num[data-id="${postId}"]`);
-
+        console.log('Like span:', likeSpan);
         // you might want to "fetch" something...    
+        //fetch(`/like/${postId}`, {
+        //    method: 'POST',
+        //})
+        //   .then(response => response.json())
+        //   .then(data => {
+        //       if (data.success) {
+        // Reload the page or update the UI to show the new like count
+        //          likeSpan.innerHTML = `${data.likes}` + ' <i class="fas fa-thumbs-up post__likes"></i>';
+        //      }
+        //  })
+        //  .catch(error => {
+        //       console.error('Error liking the post:', error);
+        //  });
+        // use database version
         fetch(`/like/${postId}`, {
             method: 'POST',
         })
-            .then(response => response.json())
+            .then(response => response.json()
+
+            )
             .then(data => {
                 if (data.success) {
-                    // Reload the page or update the UI to show the new like count
-                    likeSpan.innerHTML = `${data.likes}` + ' <i class="fas fa-thumbs-up post__likes"></i>';
+
+                    likeSpan.innerHTML = `${data.likes} <i class="fas fa-thumbs-up post__likes"></i>`;
                 }
             })
             .catch(error => {
                 console.error('Error liking the post:', error);
             });
-
     }
 
     function handleDeleteClick(event) {

@@ -2,12 +2,14 @@
 {{!< main }} <section class="login-register">
     <section class="login-area">
         <h2>Login</h2>
+
         <!-- errors will appear here -->
         {{#if loginError}}
         <p style="color: red;">{{loginError}}</p>
         {{/if}}
         <form action="/login" method="POST">
             <!-- the login form goes here -->
+
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required pattern="^[a-zA-Z0-9_]+$"
                 title="Only letters, numbers, and underscores are allowed.">

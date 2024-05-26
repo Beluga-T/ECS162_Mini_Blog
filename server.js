@@ -116,11 +116,10 @@ app.use(express.json());                            // Parse JSON bodies (as sen
 app.get('/', async (req, res) => {
     try {
         const posts = await db.all('SELECT * FROM posts ORDER BY timestamp DESC');
-        const user = getCurrentUser(req) || {};
-        const temp = accessToken
+        const user = await getCurrentUser(req);
+        const temp = accessToken;
         res.render('home', { posts, user, temp });
-    } catch (err) {
-
+    } catch (error) {
         console.error('Error fetching posts:', error);
         res.redirect('/error');
     }
@@ -179,27 +178,52 @@ app.post('/posts', async (req, res) => {
     await addPost(title, content, user);
     res.redirect('/');
 });
-app.post('/like/:id', (req, res) => {
+app.post('/like/:id', async (req, res) => {
     // TODO: Update post likes
-    const postId = parseInt(req.params.id, 10);
-    const post = posts.find(p => p.id === postId);
-    if (post) {
-        post.likes += 1;
-    }
-    let temp = post.likes
-    res.json({ success: true, likes: temp });
+    // const postId = parseInt(req.params.id, 10);
+    // const post = posts.find(p => p.id === postId);
+    // if (post) {
+    //     post.likes += 1;
+    // }
+    // let temp = post.likes
+    // res.json({ success: true, likes: temp });
     // res.redirect('/');
 
+    console.log('Like post:', req.params.id);
+    const postId = parseInt(req.params.id, 10);
+
+    try {
+        await db.run('UPDATE posts SET likes = likes + 1 WHERE id = ?', [postId]);
+        const row = await db.get('SELECT likes FROM posts WHERE id = ?', [postId]);
+        console.log('Updated post:', row); // Debug log
+        res.json({ success: true, likes: row.likes });
+    } catch (err) {
+        console.error('Error updating post likes:', err);
+        res.json({ success: false });
+    }
+
 });
-app.get('/profile', isAuthenticated, (req, res) => {
+app.get('/profile', isAuthenticated, async (req, res) => {
     // TODO: Render profile page
-    const user = getCurrentUser(req);
+    // const user = getCurrentUser(req);
+    // if (!user) {
+    //     return res.redirect('/login');
+    // }
+
+    // const userPosts = posts.filter(post => post.username === user.username);
+    // res.render('profile', { user, posts: userPosts });
+    const user = await getCurrentUser(req);
     if (!user) {
         return res.redirect('/login');
     }
 
-    const userPosts = posts.filter(post => post.username === user.username);
-    res.render('profile', { user, posts: userPosts });
+    try {
+        const userPosts = await db.all('SELECT * FROM posts WHERE username = ? ORDER BY timestamp DESC', [user.username]);
+        res.render('profile', { user, posts: userPosts });
+    } catch (error) {
+        console.error('Error fetching user posts:', error);
+        res.redirect('/error');
+    }
 });
 app.get('/avatar/:username', (req, res) => {
     // TODO: Serve the avatar image for the user
@@ -467,10 +491,19 @@ async function getCurrentUser(req) {
     // TODO: Return the user object if the session user ID matches
     // return findUserById(req.session.userId);
     // return req.session.userId ? { id: req.session.userId } : null;
-    const user = await findUserById(req.session.userId);
-    console.log('getCurrentUser - Session userId:', req.session.userId); // Debug log
-    console.log('getCurrentUser - User:', user); // Debug log
-    return user;
+    const userId = req.session.userId;
+    if (!userId) {
+        return null;
+    }
+
+    try {
+        const user = await findUserById(userId);
+        console.log('getCurrentUser - User:', user);
+        return user;
+    } catch (error) {
+        console.error('Error fetching current user:', error);
+        return null;
+    }
 }
 
 // Function to get all posts, sorted by latest first
