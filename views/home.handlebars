@@ -114,7 +114,17 @@
 
             displayEmojis(filteredEmojis);
         }
-
+        // Function to format the timestamp
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleString();
+        }
+        // Format all timestamps on the page
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".post-timestamp").forEach(element => {
+                element.textContent = formatTimestamp(element.dataset.timestamp);
+            });
+        });
         function insertEmoji(emoji) {
             // put an emoji on a form somehow. 
 

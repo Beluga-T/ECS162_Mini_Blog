@@ -18,7 +18,7 @@
         <!-- font awesome  trashcan = <i class="fas fa-trash-alt"> </i>-->
         <div class="post__information">
             <span class="like-num" data-id="{{id}}">{{likes}} <i class="fas fa-thumbs-up post__likes"></i></span>
-            <span>Posted by {{username}} on {{timestamp}}</span>
+            <span>Posted by {{username}} on <span class="post-timestamp" data-timestamp="{{timestamp}}"></span></span>
         </div>
         {{#ifCond username user.username}}
         <button class="delete-button" data-id="{{id}}" onclick="handleDeleteClick(event)">
