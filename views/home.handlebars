@@ -33,6 +33,14 @@
     <section class="post-list">
         <!-- recent posts -->
         <h2 class="main__heading">Recent Posts</h2>
+        <div class="filter-wrapper">
+            <select id="filter" defaultValue="default">
+                <option value="default" selected disabled>Sort</option>
+                <option value="likes">Likes</option>
+                <option value="new">New</option>
+                <option value="old">Old</option>
+            </select>
+        </div>
         {{#if posts.length}} <!-- if there are posts, show them -->
         <ul>
             {{#each posts}}
