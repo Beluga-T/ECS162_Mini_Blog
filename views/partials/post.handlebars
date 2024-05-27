@@ -2,8 +2,10 @@
 <div class="post">
     <div class="post-avatar">
         <!-- the user's avatar -->
-        <img src="{{#if user.avatar_url}}{{user.avatar_url}}{{else}}/avatar/{{username}}{{/if}}"
-            alt="Avatar of {{username}}" class="post-avatar_img">
+        <img src="{{#if avatar_url}}{{avatar_url}}{{else}}/avatar/{{username}}{{/if}}" alt="Avatar of {{username}}"
+            class="post-avatar_img">
+
+
     </div>
     <div class="post-content">
         <h3>{{title}}</h3>

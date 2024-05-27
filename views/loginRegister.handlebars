@@ -1,4 +1,4 @@
-{{! Use the main layout }}
+{{!-- {{! Use the main layout }}
 {{!< main }} <section class="login-register">
     <section class="login-area">
         <h2>Login</h2>
@@ -40,4 +40,27 @@
             <button type="submit">Register</button>
         </form>
     </section>
-    </section>
+    </section> --}}
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login/Register</title>
+    </head>
+
+    <body>
+        <h1>Login/Register</h1>
+        {{#if loginError}}
+        <p style="color: red;">{{loginError}}</p>
+        {{/if}}
+        {{#if regError}}
+        <p style="color: red;">{{regError}}</p>
+        {{/if}}
+        <a href="/auth/google">Login with Google</a>
+    </body>
+
+    </html>
