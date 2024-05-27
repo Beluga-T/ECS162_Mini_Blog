@@ -33,14 +33,14 @@
     <section class="post-list">
         <!-- recent posts -->
         <h2 class="main__heading">Recent Posts</h2>
-        <div class="filter-wrapper">
-            <select id="filter" defaultValue="default">
+        <form action="/" method="get" class="filter-wrapper" id="filterForm">
+            <select id="filter" name="filterOption" defaultValue="default">
                 <option value="default" selected disabled>Sort</option>
                 <option value="likes">Likes</option>
                 <option value="new">New</option>
                 <option value="old">Old</option>
             </select>
-        </div>
+        </form>
         {{#if posts.length}} <!-- if there are posts, show them -->
         <ul>
             {{#each posts}}
@@ -149,4 +149,9 @@
             textarea.focus();  // Keep focus on the 
 
         }
+
+        document.getElementById('filter').addEventListener('change', function() {
+            document.getElementById('filterForm').submit();
+    });
+
     </script>
