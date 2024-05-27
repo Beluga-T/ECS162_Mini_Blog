@@ -259,12 +259,8 @@ app.get('/logoutCallback', (req, res) => {
 });
 app.get('/', async (req, res) => {
     try {
-        const posts = await db.all(`
-            SELECT posts.*, users.avatar_url
-            FROM posts
-            JOIN users ON posts.username = users.username
-            ORDER BY posts.timestamp DESC
-        `);
+        const filter = req.query.filterOption;
+        const posts = await getPosts(filter);
         const user = await getCurrentUser(req);
         const temp = accessToken;
         res.render('home', { posts, user, temp });
@@ -272,6 +268,7 @@ app.get('/', async (req, res) => {
         console.error('Error fetching posts:', error);
         res.redirect('/error');
     }
+
 
 });
 // Register GET route is used for error response from registration
@@ -696,8 +693,57 @@ async function getCurrentUser(req) {
 }
 
 // Function to get all posts, sorted by latest first
-function getPosts() {
-    return posts.slice().reverse();
+async function getPosts(filter) {
+    if(!filter) {
+        try {
+            return await db.all(`
+            SELECT posts.*, users.avatar_url
+            FROM posts
+            JOIN users ON posts.username = users.username
+            ORDER BY posts.timestamp DESC
+            `)  ;
+        } catch (error) {
+            console.error('Error fetching posts', error);
+        }
+    } else {
+        if(filter === 'likes'){
+            try {
+                return await db.all(`
+                SELECT posts.*, users.avatar_url
+                FROM posts
+                JOIN users ON posts.username = users.username
+                ORDER BY posts.likes DESC
+                `)  ;
+            } catch (error) {
+                console.error('Error fetching posts', error);
+            }
+        }
+        if(filter === 'new'){
+            try {
+                return await db.all(`
+                SELECT posts.*, users.avatar_url
+                FROM posts
+                JOIN users ON posts.username = users.username
+                ORDER BY posts.timestamp DESC
+                `)  ;
+            } catch (error) {
+                console.error('Error fetching posts', error);
+            }
+        }
+        if(filter === 'old'){
+            try {
+                return await db.all(`
+                SELECT posts.*, users.avatar_url
+                FROM posts
+                JOIN users ON posts.username = users.username
+                ORDER BY posts.timestamp ASC
+                `)  ;
+            } catch (error) {
+                console.error('Error fetching posts', error);
+            }
+        }
+
+    }
 }
 
 // Function to add a new post
