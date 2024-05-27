@@ -292,6 +292,11 @@ footer p {
     text-align: center;
 }
 
+.profile-noposts{
+    text-align: center;
+    margin-top: 24px;
+}
+
 /* EMOJI */
 #emoji-search {
     margin-top: 24px;
