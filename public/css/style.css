@@ -63,11 +63,11 @@ nav ul li a {
     text-decoration: none;
     padding: 0.5em;
     border-radius: 6px;
-    transition: background 0.3s;
 }
 
 nav ul li a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    text-decoration: underline;
+    text-underline-offset: 6px;
 }
 
 /* Main Content */
