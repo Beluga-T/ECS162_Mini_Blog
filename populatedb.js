@@ -26,6 +26,12 @@ async function initializeDB() {
             timestamp DATETIME NOT NULL,
             likes INTEGER NOT NULL
         );
+
+        CREATE TABLE IF NOT EXISTS likes (
+            username TEXT NOT NULL,
+            post_id INTEGER NOT NULL,
+            PRIMARY KEY (username, post_id)
+        );
     `);
 
     // Sample data - Replace these arrays with your own data
