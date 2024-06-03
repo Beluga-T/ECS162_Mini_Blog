@@ -291,7 +291,7 @@ app.get('/error', (req, res) => {
 
 // Additional routes that you must implement
 
-app.get('/post/:id', async (req, res) => {
+app.get('/post/:id', async (req, res) => { // This route should render a single post
     const postId = parseInt(req.params.id, 10);
     try {
         const post = await db.get('SELECT * FROM posts WHERE id = ?', [postId]);
@@ -306,7 +306,7 @@ app.get('/post/:id', async (req, res) => {
     }
 });
 
-app.post('/posts', async (req, res) => {
+app.post('/posts', async (req, res) => { // This route should add a new post
     // TODO: Add a new post and redirect to home
     // const { title, content } = req.body;
     // const user = getCurrentUser(req);
@@ -326,7 +326,7 @@ app.post('/posts', async (req, res) => {
     res.redirect('/');
 
 });
-app.post('/like/:id', async (req, res) => {
+app.post('/like/:id', async (req, res) => { // This route should increment the likes of a post
     // TODO: Update post likes
     // const postId = parseInt(req.params.id, 10);
     // const post = posts.find(p => p.id === postId);
@@ -351,7 +351,7 @@ app.post('/like/:id', async (req, res) => {
     }
 
 });
-app.get('/profile', isAuthenticated, async (req, res) => {
+app.get('/profile', isAuthenticated, async (req, res) => { // This route should render the profile page
     // TODO: Render profile page
     // const user = getCurrentUser(req);
     // if (!user) {
