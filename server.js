@@ -291,7 +291,7 @@ app.get('/error', (req, res) => {
 
 // Additional routes that you must implement
 
-app.get('/post/:id', async (req, res) => { // This route should render a single post
+app.get('/post/:id', async (req, res) => {
     const postId = parseInt(req.params.id, 10);
     try {
         const post = await db.get('SELECT * FROM posts WHERE id = ?', [postId]);
@@ -306,7 +306,7 @@ app.get('/post/:id', async (req, res) => { // This route should render a single 
     }
 });
 
-app.post('/posts', async (req, res) => { // This route should add a new post
+app.post('/posts', async (req, res) => {
     // TODO: Add a new post and redirect to home
     // const { title, content } = req.body;
     // const user = getCurrentUser(req);
@@ -326,7 +326,7 @@ app.post('/posts', async (req, res) => { // This route should add a new post
     res.redirect('/');
 
 });
-app.post('/like/:id', async (req, res) => { // This route should increment the likes of a post
+app.post('/like/:id', async (req, res) => {
     // TODO: Update post likes
     // const postId = parseInt(req.params.id, 10);
     // const post = posts.find(p => p.id === postId);
@@ -339,19 +339,28 @@ app.post('/like/:id', async (req, res) => { // This route should increment the l
 
     console.log('Like post:', req.params.id);
     const postId = parseInt(req.params.id, 10);
+    const user = await getCurrentUser(req);
+    const username = user.username
+    const liked = await db.get('SELECT * FROM likes WHERE username = ? AND post_id = ?', [username, postId]);
 
-    try {
-        await db.run('UPDATE posts SET likes = likes + 1 WHERE id = ?', [postId]);
-        const row = await db.get('SELECT likes FROM posts WHERE id = ?', [postId]);
-        console.log('Updated post:', row); // Debug log
-        res.json({ success: true, likes: row.likes });
-    } catch (err) {
-        console.error('Error updating post likes:', err);
-        res.json({ success: false });
+    if(!liked) {
+        try {
+            await db.run('UPDATE posts SET likes = likes + 1 WHERE id = ?', [postId]);
+            const row = await db.get('SELECT likes FROM posts WHERE id = ?', [postId]);
+            console.log('Updated post:', row); // Debug log
+            await db.run(
+                'INSERT INTO likes (username, post_id) VALUES (?, ?)',
+                [username, postId]
+            );
+            res.json({ success: true, likes: row.likes });
+        } catch (err) {
+            console.error('Error updating post likes:', err);
+            res.json({ success: false });
+        }
     }
 
 });
-app.get('/profile', isAuthenticated, async (req, res) => { // This route should render the profile page
+app.get('/profile', isAuthenticated, async (req, res) => {
     // TODO: Render profile page
     // const user = getCurrentUser(req);
     // if (!user) {
