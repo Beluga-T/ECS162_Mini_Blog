@@ -27,11 +27,15 @@
             <i class="fas fa-trash-alt"></i> Delete
         </button>
         {{else}}
-        {{#if user}}
-        <button class="like-button" data-id="{{id}}" onclick="handleLikeClick(event)">
-            <i class="fas fa-thumbs-up"></i> Like
-        </button>
-        {{/if}}
+            {{#if user}}
+                <button class="like-button" data-id="{{id}}" onclick="handleLikeClick(event)">
+                    <i class="fas fa-thumbs-up"></i> Like
+                </button>
+            {{else}}
+                    <button class="like-button" data-id="{{id}}" onclick="window.location.href='/login'">
+                        <i class="fas fa-thumbs-up"></i> Like
+                    </button>
+            {{/if}}
         {{/ifCond}}
 
         <!-- Debugging information -->
