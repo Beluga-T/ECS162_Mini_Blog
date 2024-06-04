@@ -316,16 +316,40 @@ app.post('/posts', async (req, res) => {
     // addPost(title, content, user);
     // res.redirect('/');
 
+    // const { title, content } = req.body;
+    // const user = await getCurrentUser(req);
+    // if (!user) {
+    //     console.log('User not logged in');
+    //     return res.redirect('/login');
+    // }
+    // await addPost(title, content, user);
+    // res.redirect('/');
+
     const { title, content } = req.body;
     const user = await getCurrentUser(req);
     if (!user) {
         console.log('User not logged in');
         return res.redirect('/login');
     }
-    await addPost(title, content, user);
+
+    const is_game_related = false;  // false indicates not game-related
+    await addPost(title, content, user, is_game_related);
     res.redirect('/');
 
 });
+app.post('/posts/gamer', async (req, res) => {
+    const { title, content } = req.body;
+    const user = await getCurrentUser(req);
+    if (!user) {
+        console.log('User not logged in');
+        return res.redirect('/login');
+    }
+
+    const is_game_related = true;  // true indicates game-related
+    await addPost(title, content, user, is_game_related);
+    res.redirect('/gamer');
+});
+
 app.post('/like/:id', async (req, res) => {
     // TODO: Update post likes
     // const postId = parseInt(req.params.id, 10);
@@ -343,7 +367,7 @@ app.post('/like/:id', async (req, res) => {
     const username = user.username
     const liked = await db.get('SELECT * FROM likes WHERE username = ? AND post_id = ?', [username, postId]);
 
-    if(!liked) {
+    if (!liked) {
         try {
             await db.run('UPDATE posts SET likes = likes + 1 WHERE id = ?', [postId]);
             const row = await db.get('SELECT likes FROM posts WHERE id = ?', [postId]);
@@ -454,6 +478,24 @@ app.post('/register', async (req, res) => {
         res.redirect('/');
     });
 });
+app.get('/gamer', async (req, res) => {
+    try {
+        const posts = await db.all(`
+            SELECT posts.*, users.avatar_url
+            FROM posts
+            JOIN users ON posts.username = users.username
+            WHERE posts.is_game_related = 1
+            ORDER BY posts.timestamp DESC
+        `);
+        const user = await getCurrentUser(req);
+        const temp = accessToken;
+        res.render('gamer', { posts, user, temp });
+    } catch (error) {
+        console.error('Error fetching game-related posts:', error);
+        res.redirect('/error');
+    }
+});
+
 app.post('/login', async (req, res) => {
     // TODO: Login a user
     // const { username } = req.body;
@@ -703,50 +745,50 @@ async function getCurrentUser(req) {
 
 // Function to get all posts, sorted by latest first
 async function getPosts(filter) {
-    if(!filter) {
+    if (!filter) {
         try {
             return await db.all(`
             SELECT posts.*, users.avatar_url
             FROM posts
             JOIN users ON posts.username = users.username
             ORDER BY posts.timestamp DESC
-            `)  ;
+            `);
         } catch (error) {
             console.error('Error fetching posts', error);
         }
     } else {
-        if(filter === 'likes'){
+        if (filter === 'likes') {
             try {
                 return await db.all(`
                 SELECT posts.*, users.avatar_url
                 FROM posts
                 JOIN users ON posts.username = users.username
                 ORDER BY posts.likes DESC
-                `)  ;
+                `);
             } catch (error) {
                 console.error('Error fetching posts', error);
             }
         }
-        if(filter === 'new'){
+        if (filter === 'new') {
             try {
                 return await db.all(`
                 SELECT posts.*, users.avatar_url
                 FROM posts
                 JOIN users ON posts.username = users.username
                 ORDER BY posts.timestamp DESC
-                `)  ;
+                `);
             } catch (error) {
                 console.error('Error fetching posts', error);
             }
         }
-        if(filter === 'old'){
+        if (filter === 'old') {
             try {
                 return await db.all(`
                 SELECT posts.*, users.avatar_url
                 FROM posts
                 JOIN users ON posts.username = users.username
                 ORDER BY posts.timestamp ASC
-                `)  ;
+                `);
             } catch (error) {
                 console.error('Error fetching posts', error);
             }
@@ -756,7 +798,7 @@ async function getPosts(filter) {
 }
 
 // Function to add a new post
-async function addPost(title, content, user) {
+async function addPost(title, content, user, is_game_related) {
     // TODO: Create a new post object and add to posts array
     // const newPost = {
     //     id: posts.length + 1,
@@ -768,18 +810,29 @@ async function addPost(title, content, user) {
     // };
     // posts.push(newPost);
     // console.log(`Post titled "${title}" added by ${user.username}`);
-    const timestamp = new Date().toISOString();
 
+
+    // const timestamp = new Date().toISOString();
+    // try {
+    //     await db.run(
+    //         'INSERT INTO posts (title, content, username, timestamp, likes) VALUES (?, ?, ?, ?, ?)',
+    //         [title, content, user.username, timestamp, 0]
+    //     );
+    //     console.log(`Post titled "${title}" added by ${user.username}`);
+    // } catch (error) {
+    //     console.error('Error adding post to the database:', error);
+    // }
+
+    const timestamp = new Date().toISOString();
     try {
         await db.run(
-            'INSERT INTO posts (title, content, username, timestamp, likes) VALUES (?, ?, ?, ?, ?)',
-            [title, content, user.username, timestamp, 0]
+            'INSERT INTO posts (title, content, username, timestamp, likes, is_game_related) VALUES (?, ?, ?, ?, ?, ?)',
+            [title, content, user.username, timestamp, 0, is_game_related]
         );
         console.log(`Post titled "${title}" added by ${user.username}`);
     } catch (error) {
         console.error('Error adding post to the database:', error);
     }
-
 }
 
 // Function to generate an image avatar

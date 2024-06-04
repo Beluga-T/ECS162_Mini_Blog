@@ -1,5 +1,3 @@
-// populatedb.js
-
 const sqlite = require('sqlite');
 const sqlite3 = require('sqlite3');
 
@@ -24,7 +22,8 @@ async function initializeDB() {
             content TEXT NOT NULL,
             username TEXT NOT NULL,
             timestamp DATETIME NOT NULL,
-            likes INTEGER NOT NULL
+            likes INTEGER NOT NULL,
+            is_game_related INTEGER NOT NULL
         );
 
         CREATE TABLE IF NOT EXISTS likes (
@@ -34,16 +33,29 @@ async function initializeDB() {
         );
     `);
 
-    // Sample data - Replace these arrays with your own data
+    // Sample data
     const users = [
         { username: 'user1', hashedGoogleId: 'hashedGoogleId1', avatar_url: '', memberSince: '2024-01-01 12:00:00' },
-        { username: 'user2', hashedGoogleId: 'hashedGoogleId2', avatar_url: '', memberSince: '2024-01-02 12:00:00' }
+        { username: 'user2', hashedGoogleId: 'hashedGoogleId2', avatar_url: '', memberSince: '2024-01-02 12:00:00' },
+        { username: 'gamerDude', hashedGoogleId: 'hashedGoogleId3', avatar_url: '', memberSince: '2024-01-03 12:00:00' },
+        { username: 'proGamer', hashedGoogleId: 'hashedGoogleId4', avatar_url: '', memberSince: '2024-01-04 12:00:00' },
+        { username: 'linkLover', hashedGoogleId: 'hashedGoogleId5', avatar_url: '', memberSince: '2024-01-05 12:00:00' },
+        { username: 'zeldaFan', hashedGoogleId: 'hashedGoogleId6', avatar_url: '', memberSince: '2024-01-06 12:00:00' }
     ];
 
     const posts = [
-        { title: 'First Post', content: 'This is the first post', username: 'user1', timestamp: '2024-01-01 12:30:00', likes: 0 },
-        { title: 'Second Post', content: 'This is the second post', username: 'user2', timestamp: '2024-01-02 12:30:00', likes: 0 }
+        { title: 'Exploring the Mountains 🏔️', content: 'Just got back from a weekend trip to the mountains. The view was breathtaking and the fresh air was invigorating. Highly recommend! 🌲', username: 'user1', timestamp: '2024-01-01 12:30:00', likes: 0, is_game_related: 0 },
+        { title: 'New Coffee Shop in Town ☕', content: 'Discovered a new coffee shop downtown. The ambiance is perfect for working or just relaxing with a good book. The cappuccino was top-notch! 📚', username: 'user1', timestamp: '2024-01-03 14:15:00', likes: 0, is_game_related: 0 },
+        { title: 'Homemade Pizza Night 🍕', content: 'Tried making pizza from scratch last night. It turned out amazing! Might have found my new favorite hobby. 🍴', username: 'user2', timestamp: '2024-01-05 18:45:00', likes: 0, is_game_related: 0 },
+        { title: 'Sunday Morning Run 🏃', content: 'Went for a run in the park this morning. The weather was perfect and the birds were singing. Feeling refreshed and ready to tackle the week! 🏞️', username: 'user2', timestamp: '2024-01-07 09:30:00', likes: 0, is_game_related: 0 },
+        { title: 'CS:GO Rank Up 🥇', content: 'Finally ranked up in CS:GO! My teammates actually used their mics and we coordinated like pros. Almost spilled my drink during a clutch moment! 🎮', username: 'gamerDude', timestamp: '2024-02-01 10:15:00', likes: 0, is_game_related: 1 },
+        { title: 'Zelda: Breath of the Wild Adventures 🗡️', content: 'Spent hours exploring the vast world of Zelda: Breath of the Wild. Found a hidden shrine and got a cool new weapon. Also, accidentally set a field on fire. Oops! 🔥', username: 'linkLover', timestamp: '2024-02-05 15:00:00', likes: 0, is_game_related: 1 },
+        { title: 'Baldur\'s Gate 3: Epic Campaign 🛡️', content: 'Our D&D group started a campaign in Baldur\'s Gate 3. My character, a bard, managed to talk our way out of a fight. Then promptly fell into a trap. Classic. 🎲', username: 'zeldaFan', timestamp: '2024-02-07 21:30:00', likes: 0, is_game_related: 1 },
+        { title: 'Evening Yoga Session 🧘', content: 'Had a relaxing yoga session in the evening. The perfect way to unwind and stretch after a long day. Namaste! 🕉️', username: 'user1', timestamp: '2024-02-09 20:00:00', likes: 0, is_game_related: 0 },
+        { title: 'Valorant: Ace of the Day 🏆', content: 'Pulled off an ace in Valorant today. The enemy team must’ve thought they were playing against aimbots. My team showered me with praise… and also asked if I could do it again. 😆', username: 'proGamer', timestamp: '2024-02-03 18:45:00', likes: 0, is_game_related: 1 },
+        { title: 'Spring Cleaning 🧹', content: 'Spent the day doing some spring cleaning. The house feels so much more organized now. Time to relax and enjoy the clean space! 🏠', username: 'user2', timestamp: '2024-02-10 14:00:00', likes: 0, is_game_related: 0 }
     ];
+
     // Insert sample data into the database
     await Promise.all(users.map(user => {
         return db.run(
@@ -54,8 +66,8 @@ async function initializeDB() {
 
     await Promise.all(posts.map(post => {
         return db.run(
-            'INSERT INTO posts (title, content, username, timestamp, likes) VALUES (?, ?, ?, ?, ?)',
-            [post.title, post.content, post.username, post.timestamp, post.likes]
+            'INSERT INTO posts (title, content, username, timestamp, likes, is_game_related) VALUES (?, ?, ?, ?, ?, ?)',
+            [post.title, post.content, post.username, post.timestamp, post.likes, post.is_game_related]
         );
     }));
 

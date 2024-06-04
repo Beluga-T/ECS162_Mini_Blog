@@ -24,6 +24,7 @@
                 <!-- conditional rendering based on variables - Is the user logged in?-->
                 {{#if loggedIn}}
                 <li><a href="/">Home</a></li>
+                <li><a href="/gamer">Gamer</a></li>
                 <li><a href="/profile">Profile</a></li>
                 <li><a href="/logout">Logout <span>{{user.username}}</span> </a></li>
                 <div class="user-info">
@@ -34,10 +35,11 @@
                                     {{else}}
                                         /avatar/{{user.username}}
                                     {{/if}}" alt="User Avatar" class="header-avatar">
-                                    
+
                 </div>
                 {{else}}
                 <li><a href="/">Home</a></li>
+                <li><a href="/gamer">Gamer</a></li>
                 <li><a href="/login">Login/Register</a></li>
                 {{/if}}
             </ul>
