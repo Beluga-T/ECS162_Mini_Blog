@@ -1,0 +1,132 @@
+{{! Use the main layout }}
+{{!< main }} {{! New Post Submission Form }} <section class="content-container">
+    {{#if loggedIn}}
+    <!-- show the create post form when logged in -->
+    <section class="post-form">
+        <!-- make a header here -->
+        <h2 class="main__heading">Create New Post</h2>
+        <form action="/posts" method="POST">
+
+            <!-- title input field name = "title" -->
+            <label for="title">Title</label>
+
+            <!-- text area input field name = "content" -->
+            <input type="text" id="title" name="title" required>
+            <label for="content">Content</label>
+            <textarea id="content" name="content" rows="4" required></textarea>
+
+            <!-- hidden input field for game -->
+            <input type="hidden" id="game" name="game" value="{{game}}">
+
+            <div class="form-actions">
+                <button type="button" class="emoji-button" onclick="toggleEmojiPanel()">😀</button>
+                <button type="submit" class="post-button">Post</button>
+            </div>
+        </form>
+
+        <div id="emoji-container" class="emoji-panel" style="display: none;">
+            <!-- input field for the emoji search, use oninput="searchEmojis() -->
+            <!-- a div, id = "emoji-grid" -->
+            <input type="text" id="emoji-search" oninput="searchEmojis()" placeholder="Search emojis...">
+            <div id="emoji-grid"></div>
+        </div>
+    </section>
+    {{/if}}
+
+    <section class="post-list">
+        <!-- recent posts -->
+        <h2 class="main__heading">{{game}} Posts</h2>
+        <form action="/" method="get" class="filter-wrapper" id="filterForm">
+            <select id="filter" name="filterOption" defaultValue="default">
+                <option value="default" selected disabled>Sort</option>
+                <option value="likes">Likes</option>
+                <option value="new">New</option>
+                <option value="old">Old</option>
+            </select>
+        </form>
+        {{#if posts.length}} <!-- if there are posts, show them -->
+        <ul>
+            {{#each posts}}
+            {{> post this user=../user}}
+            {{/each}}
+        </ul>
+        {{else}}
+        <!-- no posts, oh no, what now? -->
+        <p>No posts available.</p>
+        {{/if}}
+    </section>
+</section>
+
+<script>
+    const accessToken = '{{temp}}';
+    let allEmojis = [];  // Global list to hold all emojis
+    const apiKey = accessToken;
+
+    function toggleEmojiPanel() {
+        const container = document.getElementById('emoji-container');
+        container.style.display = container.style.display === 'none' ? 'block' : 'none';
+
+        if (container.style.display === 'block' && allEmojis.length == 0) {
+            fetch(`https://emoji-api.com/emojis?access_key=${apiKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    allEmojis = data;
+                    displayEmojis(allEmojis);
+                })
+                .catch(error => {
+                    console.error('Error fetching emojis:', error);
+                });
+        }
+    }
+
+    function displayEmojis(emojis, limit = 200) {
+        const container = document.getElementById('emoji-grid');
+        container.innerHTML = '';  // Clear previous results
+        if (Array.isArray(emojis) && emojis.length > 0) {
+            emojis.slice(0, limit).forEach(emoji => {
+                const emojiElement = document.createElement('span');
+                emojiElement.textContent = emoji.character;
+                emojiElement.title = emoji.slug;  // Showing the emoji name on hover
+                emojiElement.style.cursor = 'pointer';
+                emojiElement.onclick = () => insertEmoji(emoji.character);
+                container.appendChild(emojiElement);
+            });
+        } else {
+            container.textContent = 'No emojis found. Try a different search!';
+        }
+    }
+
+    function searchEmojis() {
+        const searchTerm = document.getElementById('emoji-search').value.toLowerCase();
+        const filteredEmojis = allEmojis.filter(emoji => emoji.unicodeName.toLowerCase().includes(searchTerm));
+        displayEmojis(filteredEmojis);
+    }
+
+    function formatTimestamp(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleString();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".post-timestamp").forEach(element => {
+            element.textContent = formatTimestamp(element.dataset.timestamp);
+        });
+    });
+
+    function insertEmoji(emoji) {
+        const textarea = document.getElementById('content');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        const before = text.substring(0, start);
+        const after = text.substring(end, text.length);
+
+        textarea.value = before + emoji + after;
+        textarea.selectionStart = textarea.selectionEnd = start + emoji.length;
+        textarea.focus();  // Keep focus on the textarea
+    }
+
+    document.getElementById('filter').addEventListener('change', function() {
+        document.getElementById('filterForm').submit();
+    });
+</script>

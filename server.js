@@ -305,6 +305,53 @@ app.get('/post/:id', async (req, res) => {
         res.redirect('/error');
     }
 });
+app.get('/valorant', async (req, res) => {
+    try {
+        const posts = await getGamePosts('Valorant');
+        const user = await getCurrentUser(req);
+        const temp = accessToken;
+        res.render('game', { posts, user, temp, game: 'Valorant' });
+    } catch (error) {
+        console.error('Error fetching Valorant posts:', error);
+        res.redirect('/error');
+    }
+});
+app.get('/cs2', async (req, res) => {
+    try {
+        const posts = await getGamePosts('CS2');
+        const user = await getCurrentUser(req);
+        const temp = accessToken;
+        res.render('game', { posts, user, temp, game: 'CS2' });
+    } catch (error) {
+        console.error('Error fetching CS2 posts:', error);
+        res.redirect('/error');
+    }
+});
+
+app.get('/baldursgate', async (req, res) => {
+    try {
+        const posts = await getGamePosts('BaldursGate');
+        const user = await getCurrentUser(req);
+        const temp = accessToken;
+        res.render('game', { posts, user, temp, game: 'BaldursGate' });
+    } catch (error) {
+        console.error('Error fetching BaldursGate posts:', error);
+        res.redirect('/error');
+    }
+});
+
+
+app.get('/zelda', async (req, res) => {
+    try {
+        const posts = await getGamePosts('Zelda');
+        const user = await getCurrentUser(req);
+        const temp = accessToken;
+        res.render('game', { posts, user, temp, game: 'Zelda' });
+    } catch (error) {
+        console.error('Error fetching Zelda posts:', error);
+        res.redirect('/error');
+    }
+});
 
 app.post('/posts', async (req, res) => {
     // TODO: Add a new post and redirect to home
@@ -496,6 +543,7 @@ app.get('/gamer', async (req, res) => {
     }
 });
 
+
 app.post('/login', async (req, res) => {
     // TODO: Login a user
     // const { username } = req.body;
@@ -610,6 +658,21 @@ async function findUserByUsername(username) {
     } catch (error) {
         console.error('Error finding user by username:', error);
         return undefined;
+    }
+}
+
+async function getGamePosts(game) {
+    try {
+        return await db.all(`
+            SELECT posts.*, users.avatar_url
+            FROM posts
+            JOIN users ON posts.username = users.username
+            WHERE posts.game = ?
+            ORDER BY posts.timestamp DESC
+        `, [game]);
+    } catch (error) {
+        console.error(`Error fetching ${game} posts`, error);
+        throw error;
     }
 }
 
