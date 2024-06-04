@@ -46,7 +46,7 @@
             {{#each posts}}
             <!-- you have to pass the user in to posts and this is the syntax -->
             {{!-- debug: display what has been passed --}}
-            {{!-- <p>home.handlebars Debug - current User: {{../user.username}}</p> --}}
+            <p>home.handlebars Debug - current User: {{../user.username}}</p>
             {{> post this user=../user}}
             {{/each}}
         </ul>

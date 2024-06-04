@@ -22,14 +22,16 @@
             <span class="like-num" data-id="{{id}}">{{likes}} <i class="fas fa-thumbs-up post__likes"></i></span>
             <span>Posted by {{username}} on <span class="post-timestamp" data-timestamp="{{timestamp}}"></span></span>
         </div>
-        {{#ifCond username user.username}}
+       {{#ifCond username user.username}} <!-- if the post is made by the user -->
         <button class="delete-button" data-id="{{id}}" onclick="handleDeleteClick(event)">
             <i class="fas fa-trash-alt"></i> Delete
         </button>
         {{else}}
-        {{!-- <button class="like-button" data-id="{{id}}" onclick="handleLikeClick(event)">
+        {{#if user}}
+        <button class="like-button" data-id="{{id}}" onclick="handleLikeClick(event)">
             <i class="fas fa-thumbs-up"></i> Like
-        </button> --}}
+        </button>
+        {{/if}}
         {{/ifCond}}
 
         <!-- Debugging information -->
