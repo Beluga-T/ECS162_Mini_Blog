@@ -372,30 +372,28 @@ app.post('/posts', async (req, res) => {
     // await addPost(title, content, user);
     // res.redirect('/');
 
-    const { title, content } = req.body;
+    const { title, content, game } = req.body;
     const user = await getCurrentUser(req);
     if (!user) {
         console.log('User not logged in');
         return res.redirect('/login');
     }
-
-    const is_game_related = false;  // false indicates not game-related
-    await addPost(title, content, user, is_game_related);
+    await addPost(title, content, user, game);
     res.redirect('/');
 
 });
-app.post('/posts/gamer', async (req, res) => {
-    const { title, content } = req.body;
-    const user = await getCurrentUser(req);
-    if (!user) {
-        console.log('User not logged in');
-        return res.redirect('/login');
-    }
+// app.post('/posts/gamer', async (req, res) => {
+//     const { title, content } = req.body;
+//     const user = await getCurrentUser(req);
+//     if (!user) {
+//         console.log('User not logged in');
+//         return res.redirect('/login');
+//     }
 
-    const is_game_related = true;  // true indicates game-related
-    await addPost(title, content, user, is_game_related);
-    res.redirect('/gamer');
-});
+//     const is_game_related = true;  // true indicates game-related
+//     await addPost(title, content, user, is_game_related);
+//     res.redirect('/gamer');
+// });
 
 app.post('/like/:id', async (req, res) => {
     // TODO: Update post likes
@@ -525,23 +523,23 @@ app.post('/register', async (req, res) => {
         res.redirect('/');
     });
 });
-app.get('/gamer', async (req, res) => {
-    try {
-        const posts = await db.all(`
-            SELECT posts.*, users.avatar_url
-            FROM posts
-            JOIN users ON posts.username = users.username
-            WHERE posts.is_game_related = 1
-            ORDER BY posts.timestamp DESC
-        `);
-        const user = await getCurrentUser(req);
-        const temp = accessToken;
-        res.render('gamer', { posts, user, temp });
-    } catch (error) {
-        console.error('Error fetching game-related posts:', error);
-        res.redirect('/error');
-    }
-});
+// app.get('/gamer', async (req, res) => {
+//     try {
+//         const posts = await db.all(`
+//             SELECT posts.*, users.avatar_url
+//             FROM posts
+//             JOIN users ON posts.username = users.username
+//             WHERE posts.is_game_related = 1
+//             ORDER BY posts.timestamp DESC
+//         `);
+//         const user = await getCurrentUser(req);
+//         const temp = accessToken;
+//         res.render('gamer', { posts, user, temp });
+//     } catch (error) {
+//         console.error('Error fetching game-related posts:', error);
+//         res.redirect('/error');
+//     }
+// });
 
 
 app.post('/login', async (req, res) => {
@@ -861,7 +859,7 @@ async function getPosts(filter) {
 }
 
 // Function to add a new post
-async function addPost(title, content, user, is_game_related) {
+async function addPost(title, content, user, game) {
     // TODO: Create a new post object and add to posts array
     // const newPost = {
     //     id: posts.length + 1,
@@ -889,8 +887,8 @@ async function addPost(title, content, user, is_game_related) {
     const timestamp = new Date().toISOString();
     try {
         await db.run(
-            'INSERT INTO posts (title, content, username, timestamp, likes, is_game_related) VALUES (?, ?, ?, ?, ?, ?)',
-            [title, content, user.username, timestamp, 0, is_game_related]
+            'INSERT INTO posts (title, content, username, timestamp, likes, game) VALUES (?, ?, ?, ?, ?, ?)',
+            [title, content, user.username, timestamp, 0, game]
         );
         console.log(`Post titled "${title}" added by ${user.username}`);
     } catch (error) {
