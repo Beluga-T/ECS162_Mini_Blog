@@ -51,6 +51,17 @@ header h1 {
     font-weight: bold;
 }
 
+/* Footer */
+
+footer{
+    padding: 1em 2em;
+    text-align: center;
+}
+
+.footer-text{
+    margin: 24px;
+}
+
 /* Navigation */
 nav {
     display: flex;
@@ -345,6 +356,27 @@ ul li::before {
     height: 128px;
 }
 
+/* GAME */
+
+.game-title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-logo{
+    width: 15%;
+    height: 15%;
+    margin-right: 24px;
+}
+
+.game__heading {
+    margin-bottom: 64px;
+    text-align: center;
+    font-size: 36px;
+}
+
+
 /* PROFILE */
 .profile-container {
     display: flex;
@@ -429,6 +461,15 @@ ul li::before {
 
     .main__heading {
         margin: 24px auto;
+    }
+    
+    .game-title{
+        margin-top: 12px;
+        display: flex;
+    }
+
+    .game__heading{
+        margin: 0;
     }
 }
 

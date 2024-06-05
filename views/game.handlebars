@@ -40,7 +40,10 @@
             </section>
             {{/if}}
             <section class="post-list">
-                <h2 class="main__heading">{{game}} Posts</h2>
+                <div class="game-title">
+                    <img src="images/{{game}}.png" alt="" class="game-logo">
+                    <h2 class="game__heading">{{game}} Posts</h2>
+                </div>
                 <form action="/" method="get" class="filter-wrapper" id="filterForm">
                     <select id="filter" name="filterOption" defaultValue="default">
                         <option value="default" selected disabled>Sort</option>
