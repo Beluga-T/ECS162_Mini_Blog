@@ -53,6 +53,10 @@ header h1 {
 
 /* Footer */
 
+footer{
+    padding: 1em 2em;
+}
+
 .footer-text{
     margin: 24px;
 }
