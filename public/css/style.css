@@ -1,5 +1,4 @@
-/* Reset some default browser styles */
-* {
+Reset some default browser styles * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -13,7 +12,8 @@ body {
 body {
     display: flex;
     flex-direction: column;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    /* Apply PaperCSS font globally */
     background: linear-gradient(135deg, #c4effa 99%, #fad0c4 100%);
     color: #24292e;
     margin: 0;
@@ -22,28 +22,47 @@ body {
 
 /* Header */
 header {
-    background-color: #24292e;
-    color: white;
-    padding: 0.75em 1em;
+
+    padding: 1em 2em;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 1px 0 rgba(27, 31, 35, 0.1);
+    
+    font-family: 'Montserrat', sans-serif;
+    /* Apply PaperCSS font */
+    flex-wrap: wrap;
+    /* Allow wrapping */
 }
 
 .header-logo {
-    height: 32px;
-    margin-right: 10px;
+    height: 40px;
+    margin-right: 15px;
 }
 
 header .logo {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 }
 
 header h1 {
     margin: 0;
-    font-size: 1.25em;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    /* Allow wrapping */
+    gap: 1.5em;
+    font-family: 'Montserrat', sans-serif;
+    /* Apply PaperCSS font */
+    background-color: #C4EFF9;
 }
 
 nav ul {
@@ -51,23 +70,53 @@ nav ul {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1em;
+    gap: 1.5em;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+    /* Allow wrapping */
+    background-color: #C4EFF9;
 }
 
 nav ul li {
     margin: 0;
+    background-color: #C4EFF9;
 }
 
 nav ul li a {
     color: white;
-    text-decoration: none;
-    padding: 0.5em;
+    /* Ensure the navigation text is white */
+    /* text-decoration: none;
+    padding: 0.5em 1em;
     border-radius: 6px;
+    transition: background-color 0.3s ease; */
 }
 
 nav ul li a:hover {
-    text-decoration: underline;
-    text-underline-offset: 6px;
+    /* background-color: #444; */
+    /* text-decoration: underline; */
+    text-underline-offset: 4px;
+}
+
+/* User Info */
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    font-family: 'Montserrat', sans-serif;
+    /* Apply PaperCSS font */
+}
+
+.user-info span {
+    margin-left: 10px;
+    font-family: 'Montserrat', sans-serif;
+    /* Apply PaperCSS font */
+}
+
+.header-avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
 }
 
 /* Main Content */
@@ -78,18 +127,23 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    /* Apply PaperCSS font */
 }
 
 /* Forms */
 form h2 {
     text-align: center;
     margin-bottom: 1em;
+    font-family: 'Montserrat', sans-serif;
+    /* Apply PaperCSS font */
 }
 
 label {
     display: block;
     margin: 0.5em 0 0.25em;
     font-weight: bold;
+    font-family: "Neucha", sans-serif
 }
 
 input[type="text"],
@@ -97,8 +151,10 @@ input[type="password"] {
     width: 100%;
     padding: 0.5em;
     margin-bottom: 1em;
-    border: 1px solid #e1e4e8;
-    border-radius: 4px;
+    /* border: 1px solid #e1e4e8; */
+    /* border-radius: 4px; */
+    border-style: solid;
+    border-width: 2px;
 }
 
 button {
@@ -107,17 +163,20 @@ button {
     background-color: #28a745;
     color: white;
     border: none;
-    border-radius: 4px;
+    /* border-radius: 4px; */
     cursor: pointer;
     font-size: 1em;
     margin-top: 1em;
+    border-style: solid;
+    border-color: #24292e;
+    border-width: 2px;
 }
 
 button:hover {
     background-color: #218838;
 }
 
-/* LOGIN REGISTER*/
+/* LOGIN REGISTER */
 .loginregister__form {
     background: white;
     padding: 2em;
@@ -144,7 +203,8 @@ button:hover {
     color: #586069;
 }
 
-.login-button{
+/* Login Button */
+.login-button {
     text-align: center;
     width: 25%;
     padding: 0.75em;
@@ -162,61 +222,11 @@ button:hover {
     background-color: #218838;
 }
 
-/* User Info */
-.user-info {
-    display: flex;
-    align-items: center;
-}
-
-.user-posts {
-    width: 60%;
-    /* Adjust width to ensure it fits the container */
-}
-
-.header-avatar {
-    height: 32px;
-    width: 32px;
-    border-radius: 50%;
-    margin-left: 10px;
-}
-
-/* Footer */
-footer {
-    background-color: #24292e;
-    color: white;
-    text-align: center;
-    padding: 1em 0;
-    width: 100%;
-    flex-shrink: 0;
-}
-
-footer p {
-    margin: 0;
-}
-
-/* Additional elements for login/register */
-.login-register {
-    display: flex;
-    justify-content: space-between;
-    margin: 2em auto;
-    padding: 1em;
-    border: 1px solid #e1e4e8;
-    border-radius: 6px;
-    max-width: 800px;
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(27, 31, 35, 0.1);
-}
-
-.login-area,
-.register-area {
-    width: 45%;
-}
-
 /* POSTS */
 .content-container {
     display: flex;
     justify-content: center;
-    width: 80%;
+    /* width: 80%; */
     margin: 0 auto;
 }
 
@@ -224,39 +234,49 @@ footer p {
     width: 40%;
 }
 
-.filter-wrapper{
+.filter-wrapper {
     display: flex;
     justify-content: flex-end;
 }
 
-#filter{
-    color: grey;
+#filter {
+    /* color: grey;
     border: 1px solid #e1e4e8;
     border-radius: 4px;
     height: 36px;
     width: 200px;
     padding-left: 8px;
     font-size: 14px;
-    margin-top: 0.5em;
+    margin-top: 0.5em; */
+    width: 200px;
 }
 
-option{
-    font-size:14px;
+option {
+    font-size: 14px;
 }
 
 .post-list {
     width: 55%;
-    margin-left: 5%;
+    /* margin-left: 5%; */
 }
-
+ul li::before {
+    content: "";
+}
 .post {
     margin-top: 36px;
     padding: 16px;
     border: 1px solid #e1e4e8;
-    border-radius: 6px;
+    /* border-radius: 6px; */
     background-color: white;
     box-shadow: 0 1px 3px rgba(27, 31, 35, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
+    border-style: solid;
+    border-bottom-left-radius: 15px 255px;
+    border-bottom-right-radius: 225px 15px;
+    border-top-left-radius: 255px 15px;
+    border-top-right-radius: 15px 225px;
+    border-width: 3px;
+    border-color: #24292e;
 }
 
 .post:hover {
@@ -309,7 +329,6 @@ option{
 }
 
 /* PROFILE */
-
 .profile-container {
     display: flex;
     margin: 24px auto;
@@ -330,7 +349,7 @@ option{
     text-align: center;
 }
 
-.profile-noposts{
+.profile-noposts {
     text-align: center;
     margin-top: 24px;
 }
@@ -342,6 +361,28 @@ option{
 
 /* RESPONSIVENESS FOR MOBILE */
 @media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav {
+        justify-content: flex-start;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 0.5em;
+    }
+
+    .user-info {
+        margin-top: 10px;
+        justify-content: flex-end;
+        width: 100%;
+    }
+
     h3 {
         font-size: 18px;
     }
@@ -372,4 +413,10 @@ option{
     .main__heading {
         margin: 24px auto;
     }
+}
+
+/* Timestamp */
+.post-timestamp span {
+    font-family: 'Montserrat', sans-serif;
+    /* Apply PaperCSS font */
 }

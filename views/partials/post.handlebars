@@ -1,5 +1,6 @@
 {{! Partial for a single post }}
-<div class="post">
+
+<div class="post" class="card-list">
     <div class="post-avatar">
         <!-- the user's avatar -->
         <img src="{{#if avatar_url}}{{avatar_url}}{{else}}/avatar/{{username}}{{/if}}" alt="Avatar of {{username}}"
@@ -19,7 +20,7 @@
         <!-- Heart = ♥ -->
         <!-- font awesome  trashcan = <i class="fas fa-trash-alt"> </i>-->
         <div class="post__information">
-            <span class="like-num" data-id="{{id}}">{{likes}} <i class="fas fa-thumbs-up post__likes"></i></span>
+            <span class="like-num" data-id="{{id}}">{{likes}} &nbsp;<i class="fas fa-thumbs-up post__likes"></i></span>
             <span>Posted by {{username}} on <span class="post-timestamp" data-timestamp="{{timestamp}}"></span></span>
         </div>
        {{#ifCond username user.username}} <!-- if the post is made by the user -->
