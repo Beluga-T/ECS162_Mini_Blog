@@ -27,7 +27,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+
     font-family: 'Montserrat', sans-serif;
     /* Apply PaperCSS font */
     flex-wrap: wrap;
@@ -146,6 +146,21 @@ label {
     font-family: "Neucha", sans-serif
 }
 
+footer {
+    text-align: center;
+}
+
+.emoji-button {
+
+    padding: auto;
+
+
+}
+
+a {
+    background-image: none;
+}
+
 input[type="text"],
 input[type="password"] {
     width: 100%;
@@ -259,9 +274,11 @@ option {
     width: 55%;
     /* margin-left: 5%; */
 }
+
 ul li::before {
     content: "";
 }
+
 .post {
     margin-top: 36px;
     padding: 16px;
