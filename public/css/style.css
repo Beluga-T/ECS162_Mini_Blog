@@ -51,6 +51,12 @@ header h1 {
     font-weight: bold;
 }
 
+/* Footer */
+
+.footer-text{
+    margin: 24px;
+}
+
 /* Navigation */
 nav {
     display: flex;
